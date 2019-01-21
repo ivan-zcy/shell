@@ -10,6 +10,7 @@
 #include "data.h"
 #include "ls.h"
 #include "cd.h"
+#include "pwd.h"
 using namespace std;
 
 char s[1005];   //存储一次的命令
@@ -36,7 +37,9 @@ int main () {
                 break;
             } else if(strcmp(sp[0], "ls") == 0) {
                 getLs(paths, 0);   
-            } else {
+            } else if(strcmp(sp[0], "pwd") == 0) {
+                getPwd(paths);
+            }else {
                 printf("Error command\n");
             }
         } else if(len == 2) {
