@@ -34,6 +34,7 @@ void getLs(char *paths, int flag) {
     if (flag & 1) {
         printf("\033[1;31m%-12s %-8s  %-8s  %-6s %-15s %-18s %-10s\n\033[0m", "权限", "文件数", "拥有者", "group", "文件大小", "建档日期", "文件名");
     }
+    int num = 0;
     while((ptr = readdir(dir)) != NULL) {
         if (ptr -> d_name[0] == '.' && (flag & 2) == 0) {
             continue;
@@ -52,15 +53,30 @@ void getLs(char *paths, int flag) {
             printf("%-15.12s ", 4 + ctime(&dirfileinfo.st_mtime));
             printf("%-10s\n", ptr -> d_name);
         } else {
+            num++;
             if (ptr -> d_type == 8) {
-                printf("\033[1;33m%-10s  \033[0m", ptr -> d_name);
+                if(num & 1) {
+                    printf("\033[1;33m%-20s\t\033[0m", ptr -> d_name);
+                } else {
+                    printf("\033[1;33m%-20s\n\033[0m", ptr -> d_name);
+                }
             } else if(ptr -> d_type == 10) {
-                printf("\033[1;32m%-10s  \033[0m", ptr -> d_name);
+                if(num & 1) {
+                    printf("\033[1;32m%-20s\t\033[0m", ptr -> d_name);
+                } else {
+                    printf("\033[1;32m%-20s\n\033[0m", ptr -> d_name);
+                }
             } else if(ptr -> d_type == 4) {
-                printf("\033[1;31m%-10s  \033[0m", ptr -> d_name);
+                if(num & 1) {
+                    printf("\033[1;31m%-20s\t\033[0m", ptr -> d_name);
+                } else {
+                    printf("\033[1;31m%-20s\n\033[0m", ptr -> d_name);
+                }
             }
         }
     }
-    if ((flag & 1) == 0) printf("\n");
+    if ((num & 1) && flag % 2 == 0) {
+        printf("\n");
+    }
     closedir(dir);
 }

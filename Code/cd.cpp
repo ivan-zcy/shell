@@ -45,3 +45,12 @@ void setCd(char *paths, char (*spcd)[1005], int len) {
     }
     strcpy(paths, newpaths);
 }
+
+void setCdjia(char *paths) {
+    char newpaths[1005] = "/Users/";
+    uid_t userid = getuid();
+    passwd* pwd = getpwuid(userid);
+    strcat(newpaths, pwd -> pw_name);
+    strcat(newpaths, "/");
+    strcpy(paths, newpaths);
+}

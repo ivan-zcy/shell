@@ -11,6 +11,7 @@
 #include "../Head/ls.h"
 #include "../Head/cd.h"
 #include "../Head/pwd.h"
+#include "../Head/other.h"
 using namespace std;
 
 char s[1005];   //存储一次的命令
@@ -39,8 +40,11 @@ int main () {
                 getLs(paths, 0);   
             } else if(strcmp(sp[0], "pwd") == 0) {
                 getPwd(paths);
-            }else {
-                printf("Error command\n");
+            } else if(strcmp(sp[0], "cd") == 0) {
+                setCdjia(paths);
+            } else {
+                char splace[5] = " ";
+                runOther(s, splace);
             }
         } else if(len == 2) {
             if(strcmp(sp[0], "ls") == 0){
@@ -51,16 +55,16 @@ int main () {
                 } else if(strcmp(sp[1], "-al") == 0 || strcmp(sp[1], "-la") == 0) {
                     getLs(paths, 3);
                 } else {
-                    printf("Error command\n");
+                    runOther(s, sp[len - 1]);
                 }
             } else if(strcmp(sp[0], "cd") == 0) {
                 len = split(sp[1], spcd, '/');
                 setCd(paths, spcd, len);
             } else {
-                printf("Error command\n");
+                runOther(s, sp[len - 1]);
             }
         } else {
-            printf("Error command\n");
+            runOther(s, sp[len - 1]);
         }
     }
     return 0;
